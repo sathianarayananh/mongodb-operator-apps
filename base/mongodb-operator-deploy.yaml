@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mongodb-operator
+  namespace: argocd-mongodb-operator
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec: 
+  project: default
+  source:
+    repoURL: git@rbcgithub.fg.rbc.com:GPM0/mongodb-enterprise-kubernetes.git
+    targetRevision: master
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd-mongodb-operator
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+     syncOptions:
+       - CreateNamespace=true
